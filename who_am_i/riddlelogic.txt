@@ -1,0 +1,20 @@
+k=int(input("Enter a number of the letters in indian words"))
+for i in range(k):
+		
+	
+	
+list1=inames[i]+inames[j]+inames[k]
+for a in inames.index:
+	if list1== df[waterStore]:
+		x[i]==inames[a]
+		i++
+	
+
+
+
+
+
+
+
+for w in range(k):
+	list1=+iname[w]
