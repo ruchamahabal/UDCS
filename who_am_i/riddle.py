@@ -31,7 +31,6 @@ def get_answer(main_dataset, conditions, datasets):
     for word in main_dataset:
         print(word)
         for condition in conditions:
-            print('====d', datasets.get(condition.get('dataset')))
             exists = check_exists(word, condition.get('indices'), datasets.get(condition.get('dataset')))
             if not exists:
                 break
