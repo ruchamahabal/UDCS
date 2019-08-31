@@ -1,43 +1,74 @@
 
-import pandas as pd
+import pandas
 from pandas import ExcelWriter
 from pandas import ExcelFile
 
-#print("Column headings:")
-#print(df.columns)
-#print(df['Computer Parts'])
+def read_file(filename, names):
+    df = pandas.read_excel(filename, names=names)
+    return df 
 
-#iterating through parts
-#for i in df.index:
-    #print(df['Computer Parts'][i])
-    #print(df['Soaps'][i])
+def clean_datasets(datasets):
+    for dataset in datasets.values():
+        for i in range(len(dataset)):
+            dataset[i] = dataset[i].strip()
+            dataset[i] = dataset[i].lower()
+    return datasets
 
-#saving in a list
-df = pd.read_excel('C:\\Users\\anush\\AppData\\Local\\Programs\\Python\\Python37\\Scripts\\riddleAssign\\indian name.xlsx') #sheetname='Sheet1')
-inames = df['Indian Names']
-print(inames)
+def check_exists(word, indices, dataset):
+    sub_word = ''
+    for index in indices:
+        #-1 because indexing starts from 0
+        if int(index)<0:
+            sub_word += word[int(index)]
+        else:
+            sub_word += word[(int(index))-1]
+    if sub_word in dataset:
+        return True
+    else:
+        return False
+        
+def get_answer(main_dataset, conditions, datasets):
+    for word in main_dataset:
+        print(word)
+        for condition in conditions:
+            print('====d', datasets.get(condition.get('dataset')))
+            exists = check_exists(word, condition.get('indices'), datasets.get(condition.get('dataset')))
+            if not exists:
+                break
+        if exists:
+            answer = word 
+            return answer      
 
-df = pd.read_excel('C:\\Users\\anush\\AppData\\Local\\Programs\\Python\\Python37\\Scripts\\riddleAssign\\CompParts.xlsx')
-compParts = df['Computer Parts']
-print(compParts)
+'''main dataset'''
+main_dataset_name = input('Enter your main dataset name:')
+main_dataset = read_file(main_dataset_name, names=['main'])
+main_dataset = main_dataset['main'].tolist()
+for i in range(len(main_dataset)):
+    main_dataset[i] = main_dataset[i].strip()
+    main_dataset[i] = main_dataset[i].lower()
 
-df = pd.read_excel('C:\\Users\\anush\\AppData\\Local\\Programs\\Python\\Python37\\Scripts\\riddleAssign\\designSoftware.xlsx')
-designSoft = df['Design Software']
-print(designSoft)
+no_of_datasets = int(input('Enter the number of helper datasets:'))
+print(no_of_datasets)
 
-df = pd.read_excel('C:\\Users\\anush\\AppData\\Local\\Programs\\Python\\Python37\\Scripts\\riddleAssign\\waterStorage.xlsx')
-waterStore = df['Water Storage']
-print(waterStore)
+'''helper dataset'''
+datasets = {}
+filenames = []
+for i in range(no_of_datasets):
+    filename = input('Enter the dataset ' + str(i) + ' name:')
+    filenames.append(filename)
+    dataset = read_file(filename, names = [filename])
+    datasets[filename] = dataset[filename].tolist()
+datasets = clean_datasets(datasets)
 
-df = pd.read_excel('C:\\Users\\anush\\AppData\\Local\\Programs\\Python\\Python37\\Scripts\\riddleAssign\\AllSoapNames.xlsx')
-soaps = df['Soaps1']
-print(soaps)
-for i in df.index:
-    if inames[1] and inames[4] and inames[5] and inames[7] and inames[10]==df['Soaps1']:
-        a=inames
-        print(a)
-df = pd.read_excel('C:\\Users\\anush\\AppData\\Local\\Programs\\Python\\Python37\\Scripts\\riddleAssign\\Companies.xlsx')
-companyN = df['Company Name']
-print(companyN)
+'''conditions'''
+no_of_conditions = int(input('Enter the number of conditions'))
+conditions = []
+for i in range(no_of_conditions):
+    indices = input('Enter all indices separated by commas:').split(',')
+    dataset = input('Enter the dataset filename:')
+    conditions.append({'indices': indices, 'dataset': dataset})
 
-#iterating through lists
+print(conditions)
+
+answer = get_answer(main_dataset, conditions, datasets)
+print('Answer is:',answer)

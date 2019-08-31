@@ -1,0 +1,22 @@
+AllSoapNames.xlsx
+Companies.xlsx
+CompParts.xlsx
+designSoftware.xlsx
+indian name.xlsx
+waterStorage.xlsx
+
+conditions:
+-3,-2, -1
+CompParts.xlsx
+
+4,5,6
+waterStorage.xlsx
+
+1,5,4
+designSoftware.xlsx
+
+3,7,6
+Companies.xlsx
+
+2,5,6,8,11
+AllSoapNames.xlsx
